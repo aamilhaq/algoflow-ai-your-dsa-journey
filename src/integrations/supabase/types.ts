@@ -14,16 +14,354 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      achievements: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          slug: string
+          title: string
+          xp_reward: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          slug: string
+          title: string
+          xp_reward?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          slug?: string
+          title?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
+      problems: {
+        Row: {
+          company_tags: string[]
+          constraints: string | null
+          created_at: string
+          description: string | null
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          examples: Json
+          hints: string[]
+          id: string
+          order: number
+          slug: string
+          solution: string | null
+          starter_code: Json
+          title: string
+          topic_id: string | null
+        }
+        Insert: {
+          company_tags?: string[]
+          constraints?: string | null
+          created_at?: string
+          description?: string | null
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          examples?: Json
+          hints?: string[]
+          id?: string
+          order?: number
+          slug: string
+          solution?: string | null
+          starter_code?: Json
+          title: string
+          topic_id?: string | null
+        }
+        Update: {
+          company_tags?: string[]
+          constraints?: string | null
+          created_at?: string
+          description?: string | null
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          examples?: Json
+          hints?: string[]
+          id?: string
+          order?: number
+          slug?: string
+          solution?: string | null
+          starter_code?: Json
+          title?: string
+          topic_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "problems_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          current_level: number
+          email: string | null
+          id: string
+          last_active_date: string | null
+          name: string | null
+          streak: number
+          updated_at: string
+          xp: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          current_level?: number
+          email?: string | null
+          id: string
+          last_active_date?: string | null
+          name?: string | null
+          streak?: number
+          updated_at?: string
+          xp?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          current_level?: number
+          email?: string | null
+          id?: string
+          last_active_date?: string | null
+          name?: string | null
+          streak?: number
+          updated_at?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      revisions: {
+        Row: {
+          completed: boolean
+          created_at: string
+          due_date: string
+          id: string
+          stage: number
+          topic_id: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          due_date: string
+          id?: string
+          stage?: number
+          topic_id: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          due_date?: string
+          id?: string
+          stage?: number
+          topic_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "revisions_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submissions: {
+        Row: {
+          code: string
+          id: string
+          language: string
+          problem_id: string
+          runtime_ms: number | null
+          status: Database["public"]["Enums"]["submission_status"]
+          submitted_at: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          id?: string
+          language?: string
+          problem_id: string
+          runtime_ms?: number | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          submitted_at?: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          id?: string
+          language?: string
+          problem_id?: string
+          runtime_ms?: number | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          submitted_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submissions_problem_id_fkey"
+            columns: ["problem_id"]
+            isOneToOne: false
+            referencedRelation: "problems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topics: {
+        Row: {
+          created_at: string
+          description: string | null
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          estimated_hours: number
+          icon: string | null
+          id: string
+          name: string
+          order: number
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          estimated_hours?: number
+          icon?: string | null
+          id?: string
+          name: string
+          order?: number
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          estimated_hours?: number
+          icon?: string | null
+          id?: string
+          name?: string
+          order?: number
+          slug?: string
+        }
+        Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          id: string
+          unlocked_at: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          id?: string
+          unlocked_at?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          id?: string
+          unlocked_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_progress: {
+        Row: {
+          completion_percentage: number
+          id: string
+          last_accessed: string
+          questions_solved: number
+          topic_id: string
+          user_id: string
+        }
+        Insert: {
+          completion_percentage?: number
+          id?: string
+          last_accessed?: string
+          questions_solved?: number
+          topic_id: string
+          user_id: string
+        }
+        Update: {
+          completion_percentage?: number
+          id?: string
+          last_accessed?: string
+          questions_solved?: number
+          topic_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_progress_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      leaderboard: {
+        Row: {
+          avatar_url: string | null
+          current_level: number | null
+          id: string | null
+          name: string | null
+          streak: number | null
+          xp: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          current_level?: number | null
+          id?: string | null
+          name?: string | null
+          streak?: number | null
+          xp?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          current_level?: number | null
+          id?: string | null
+          name?: string | null
+          streak?: number | null
+          xp?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      difficulty_level: "Easy" | "Medium" | "Hard"
+      submission_status:
+        | "Accepted"
+        | "Wrong Answer"
+        | "Time Limit Exceeded"
+        | "Runtime Error"
+        | "Pending"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +488,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      difficulty_level: ["Easy", "Medium", "Hard"],
+      submission_status: [
+        "Accepted",
+        "Wrong Answer",
+        "Time Limit Exceeded",
+        "Runtime Error",
+        "Pending",
+      ],
+    },
   },
 } as const
