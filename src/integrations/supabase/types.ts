@@ -323,33 +323,7 @@ export type Database = {
       }
     }
     Views: {
-      leaderboard: {
-        Row: {
-          avatar_url: string | null
-          current_level: number | null
-          id: string | null
-          name: string | null
-          streak: number | null
-          xp: number | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          current_level?: number | null
-          id?: string | null
-          name?: string | null
-          streak?: number | null
-          xp?: number | null
-        }
-        Update: {
-          avatar_url?: string | null
-          current_level?: number | null
-          id?: string | null
-          name?: string | null
-          streak?: number | null
-          xp?: number | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       [_ in never]: never
