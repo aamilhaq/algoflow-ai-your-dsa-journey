@@ -54,7 +54,7 @@ function Roadmap() {
                   <Link to="/topics/$slug" params={{ slug: topic.slug }}>
                     <Card className="shadow-card flex items-center gap-4 p-5 transition-all hover:border-primary/50 hover:shadow-glow">
                       <div className={`grid h-12 w-12 place-items-center rounded-xl ${done ? "bg-success/15 text-success" : "bg-primary/10 text-primary"}`}>
-                        {done ? <CheckCircle2 className="h-6 w-6" /> : <Icon name={topic.icon} className="h-5 w-5" />}
+                        {done ? <CheckCircle2 className="h-6 w-6" /> : <Icon name={topic.icon ?? undefined} className="h-5 w-5" />}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">

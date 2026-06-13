@@ -99,7 +99,7 @@ function Dashboard() {
               <p className="text-xs font-medium text-muted-foreground">Recommended next</p>
               <div className="mt-1.5 flex items-center justify-between">
                 <span className="flex items-center gap-2 font-semibold">
-                  <Icon name={nextTopic.icon} className="h-4 w-4 text-primary" /> {nextTopic.name}
+                  <Icon name={nextTopic.icon ?? undefined} className="h-4 w-4 text-primary" /> {nextTopic.name}
                 </span>
                 <Button asChild size="sm" variant="ghost">
                   <Link to="/topics/$slug" params={{ slug: nextTopic.slug }}><ArrowRight className="h-4 w-4" /></Link>
@@ -126,7 +126,7 @@ function Dashboard() {
                 <Link to="/topics/$slug" params={{ slug: r.topic?.slug ?? "" }}>
                   <Card className="p-4 transition-colors hover:border-primary/50">
                     <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-2 font-medium"><Icon name={r.topic?.icon} className="h-4 w-4 text-primary" />{r.topic?.name}</span>
+                      <span className="flex items-center gap-2 font-medium"><Icon name={r.topic?.icon ?? undefined} className="h-4 w-4 text-primary" />{r.topic?.name}</span>
                       {r.topic && <DifficultyBadge difficulty={r.topic.difficulty} />}
                     </div>
                     <Progress value={r.completion_percentage} className="mt-3 h-1.5" />
