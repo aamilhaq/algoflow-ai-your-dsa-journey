@@ -128,6 +128,22 @@ export function useLeaderboard() {
   });
 }
 
+export function useUpdateProfile() {
+  const { user } = useAuth();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (updates: { name?: string; avatar_url?: string | null }) => {
+      if (!user) throw new Error("Not signed in");
+      const { error } = await supabase.from("profiles").update(updates).eq("id", user.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["profile"] });
+      qc.invalidateQueries({ queryKey: ["leaderboard"] });
+    },
+  });
+}
+
 // Records a solved problem: inserts an Accepted submission, awards XP, updates progress + streak.
 export function useSolveProblem() {
   const { user } = useAuth();
