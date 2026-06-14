@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedTutorRouteImport } from './routes/_authenticated/tutor'
 import { Route as AuthenticatedRoadmapRouteImport } from './routes/_authenticated/roadmap'
+import { Route as AuthenticatedExplainRouteImport } from './routes/_authenticated/explain'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedTopicsSlugRouteImport } from './routes/_authenticated/topics.$slug'
 import { Route as AuthenticatedProblemsSlugRouteImport } from './routes/_authenticated/problems.$slug'
@@ -31,9 +33,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTutorRoute = AuthenticatedTutorRouteImport.update({
+  id: '/tutor',
+  path: '/tutor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRoadmapRoute = AuthenticatedRoadmapRouteImport.update({
   id: '/roadmap',
   path: '/roadmap',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedExplainRoute = AuthenticatedExplainRouteImport.update({
+  id: '/explain',
+  path: '/explain',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -57,7 +69,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/explain': typeof AuthenticatedExplainRoute
   '/roadmap': typeof AuthenticatedRoadmapRoute
+  '/tutor': typeof AuthenticatedTutorRoute
   '/problems/$slug': typeof AuthenticatedProblemsSlugRoute
   '/topics/$slug': typeof AuthenticatedTopicsSlugRoute
 }
@@ -65,7 +79,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/explain': typeof AuthenticatedExplainRoute
   '/roadmap': typeof AuthenticatedRoadmapRoute
+  '/tutor': typeof AuthenticatedTutorRoute
   '/problems/$slug': typeof AuthenticatedProblemsSlugRoute
   '/topics/$slug': typeof AuthenticatedTopicsSlugRoute
 }
@@ -75,7 +91,9 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/explain': typeof AuthenticatedExplainRoute
   '/_authenticated/roadmap': typeof AuthenticatedRoadmapRoute
+  '/_authenticated/tutor': typeof AuthenticatedTutorRoute
   '/_authenticated/problems/$slug': typeof AuthenticatedProblemsSlugRoute
   '/_authenticated/topics/$slug': typeof AuthenticatedTopicsSlugRoute
 }
@@ -85,7 +103,9 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/explain'
     | '/roadmap'
+    | '/tutor'
     | '/problems/$slug'
     | '/topics/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -93,7 +113,9 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/explain'
     | '/roadmap'
+    | '/tutor'
     | '/problems/$slug'
     | '/topics/$slug'
   id:
@@ -102,7 +124,9 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/dashboard'
+    | '/_authenticated/explain'
     | '/_authenticated/roadmap'
+    | '/_authenticated/tutor'
     | '/_authenticated/problems/$slug'
     | '/_authenticated/topics/$slug'
   fileRoutesById: FileRoutesById
@@ -136,11 +160,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/tutor': {
+      id: '/_authenticated/tutor'
+      path: '/tutor'
+      fullPath: '/tutor'
+      preLoaderRoute: typeof AuthenticatedTutorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/roadmap': {
       id: '/_authenticated/roadmap'
       path: '/roadmap'
       fullPath: '/roadmap'
       preLoaderRoute: typeof AuthenticatedRoadmapRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/explain': {
+      id: '/_authenticated/explain'
+      path: '/explain'
+      fullPath: '/explain'
+      preLoaderRoute: typeof AuthenticatedExplainRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
@@ -169,14 +207,18 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedExplainRoute: typeof AuthenticatedExplainRoute
   AuthenticatedRoadmapRoute: typeof AuthenticatedRoadmapRoute
+  AuthenticatedTutorRoute: typeof AuthenticatedTutorRoute
   AuthenticatedProblemsSlugRoute: typeof AuthenticatedProblemsSlugRoute
   AuthenticatedTopicsSlugRoute: typeof AuthenticatedTopicsSlugRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedExplainRoute: AuthenticatedExplainRoute,
   AuthenticatedRoadmapRoute: AuthenticatedRoadmapRoute,
+  AuthenticatedTutorRoute: AuthenticatedTutorRoute,
   AuthenticatedProblemsSlugRoute: AuthenticatedProblemsSlugRoute,
   AuthenticatedTopicsSlugRoute: AuthenticatedTopicsSlugRoute,
 }
@@ -192,13 +234,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
