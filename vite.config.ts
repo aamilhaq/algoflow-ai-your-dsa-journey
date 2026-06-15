@@ -6,7 +6,14 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// When building on Vercel (VERCEL=1 is injected by Vercel's build env), target the
+// nitro "vercel" preset so the build emits Vercel's Build Output API (.vercel/output),
+// which Vercel auto-detects. In the Lovable sandbox / Lovable hosting, leave the preset
+// unset so the default Cloudflare target keeps working.
+const isVercel = process.env.VERCEL === "1" || !!process.env.VERCEL;
+
 export default defineConfig({
+  ...(isVercel ? { nitro: { preset: "vercel" } } : {}),
   vite: {
     optimizeDeps: {
       include: ["@radix-ui/react-avatar", "react-markdown", "remark-gfm"],
