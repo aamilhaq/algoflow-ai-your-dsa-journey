@@ -26,7 +26,7 @@ function GoogleButton({ onClick, loading }: { onClick: () => void; loading: bool
 }
 
 function AuthPage() {
-  const { user, signIn, signUp, signInWithGoogle } = useAuth();
+  const { user, signIn, signUp, signInWithGoogle, signInAsDemo } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -64,6 +64,14 @@ function AuthPage() {
     }
   };
 
+  const handleDemoLogin = async () => {
+    setLoading(true);
+    await signInAsDemo();
+    setLoading(false);
+    toast.success("Welcome to the Demo Account!");
+    navigate({ to: "/dashboard" });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-hero px-4">
       <div className="w-full max-w-md">
@@ -71,6 +79,16 @@ function AuthPage() {
           <LogoWordmark />
         </Link>
         <Card className="shadow-card p-6">
+          <Button
+            type="button"
+            variant="default"
+            className="mb-5 w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700 shadow-md font-semibold"
+            onClick={handleDemoLogin}
+            disabled={loading}
+          >
+            ⚡ Instant Demo Access (Pre-filled Profile)
+          </Button>
+
           <Tabs defaultValue="login">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Sign in</TabsTrigger>
@@ -81,7 +99,7 @@ function AuthPage() {
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="li-email">Email</Label>
-                  <Input id="li-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
+                  <Input id="li-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com or demo@algoflow.ai" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="li-pass">Password</Label>
