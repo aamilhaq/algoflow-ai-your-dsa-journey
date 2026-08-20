@@ -1,6 +1,7 @@
 # ⚡ AlgoFlow AI
 
-> **Duolingo × LeetCode × AI Tutor** — Master Data Structures & Algorithms with an interactive guided roadmap, gamified progression, and an AI-powered coding companion.
+> **Day 1 of #ProjectGetHired** — Gamified DSA learning platform with interactive skill roadmap, AI coding tutor, instant demo profile, automated code analysis & real-time analytics.
+> *(Duolingo × LeetCode × AI Tutor)*
 
 ---
 
